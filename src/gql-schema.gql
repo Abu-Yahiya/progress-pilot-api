@@ -1,0 +1,515 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ServerFileEntity {
+  bucket: String
+  region: String
+  key: String
+  externalUrl: String
+}
+
+type PaginationMeta {
+  totalCount: Float!
+  currentPage: Float!
+  hasNextPage: Boolean!
+  totalPages: Float!
+}
+
+type OrganizationSettingsSchema {
+  apiKey: String
+  apiToken: String
+}
+
+type MetaSetupDataSchema {
+  pixelId: String
+}
+
+type SocialLinksSchema {
+  facebook: String
+  x: String
+  instagram: String
+  youtube: String
+  daraz: String
+}
+
+type Organization {
+  _id: ID
+  name: String!
+  tagline: String
+  orgUID: String
+  isVerified: Boolean
+  status: Organization_Status
+  businessEmail: String!
+  businessPhone: String!
+  address: String!
+  cover: ServerFileEntity
+  Logo: ServerFileEntity
+  settings: OrganizationSettingsSchema
+  socialLinks: SocialLinksSchema
+  metaSetupData: MetaSetupDataSchema
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+enum Organization_Status {
+  Pending
+  Active
+  InActive
+  Disable
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type OrganizationWithPagination {
+  nodes: [Organization!]
+  meta: PaginationMeta
+}
+
+type User {
+  _id: ID
+  name: String
+  email: String!
+  phone: String
+  password: String
+  avatar: String
+  role: USER_ROLE!
+}
+
+enum USER_ROLE {
+  ADMIN
+  LEARNER
+}
+
+type UserPagination {
+  nodes: [User!]
+  meta: PaginationMeta
+}
+
+type ApiCommonActionOutput {
+  isSuccess: Boolean
+  message: String
+  data: JSON
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type ExerciseInput {
+  pushUp: Float
+  squats: Float
+  seatUp: Float
+  running: Float
+  jumpingJack: Float
+  plank: Float
+  dumbbleCurl: Float
+  others: String
+}
+
+type EbadahInput {
+  namajWithJamath: Float
+  extraNamaj: Float
+  ishraq: Boolean
+  tahajjud: Boolean
+  tilwat: String
+  hadith: Float
+  readingBook: String
+  waqiyah: Boolean
+  mulk: Boolean
+  translation: String
+}
+
+type JikirInput {
+  istigfar: Float
+  durudYunus: Float
+  durud: Float
+  doaTawhid: Float
+}
+
+type DailyActivity {
+  _id: ID
+  orgUID: String!
+  user: User
+  ebadah: EbadahInput
+  jikirAjkar: JikirInput
+  exercise: ExerciseInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DailyActivityPagination {
+  nodes: [DailyActivity!]
+  meta: PaginationMeta
+}
+
+type ServerFileReference {
+  fileUrl: String!
+}
+
+type TaskManagement_TaskDetails {
+  taskName: String!
+  taskDescription: String
+  issuesDescription: String
+}
+
+type TaskManagement {
+  _id: ID
+  taskCreatedBy: User!
+  taskDetails: TaskManagement_TaskDetails!
+  taskId: String!
+  files: [ServerFileReference!]
+  totalBillAmount: Int!
+  paidBillAmount: Int!
+  dueAmount: Int!
+  progressStatus: Task_Progress_Status
+  paymentStatus: Payment_Status!
+  deadLine: DateTime!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+enum Task_Progress_Status {
+  PENDING
+  IN_PROGRESS
+  WORK_DONE
+  REVISION
+  COMPLETED
+  CANCELLED
+  ARCHIVED
+}
+
+enum Payment_Status {
+  REFUNDED
+  PARTIALLY_PAID
+  PAID
+  DUE
+  CANCELLED
+}
+
+type TaskManagementPagination {
+  nodes: [TaskManagement!]
+  meta: PaginationMeta
+}
+
+type Query {
+  users(input: UserListQueryDto): UserPagination!
+  user(input: CommonMatchInput!): User!
+  organizations(input: OrganizationListQueryInput): OrganizationWithPagination!
+  myOrganizations(input: OrganizationListQueryInput, _id: String!): OrganizationWithPagination!
+  organization(_id: String!): Organization!
+  organizationByUID(orgUID: String!): Organization!
+  taskList(input: TaskListQueryDto): TaskManagementPagination!
+  task(input: CommonMatchInput!): TaskManagement!
+  activitiesByOrgAndUser(input: ActivityListQueryDto, orgUID: String!, userId: String!): DailyActivityPagination!
+  activityByOrgAndUser(_id: String!, orgUID: String!, userId: String!): DailyActivity!
+}
+
+input UserListQueryDto {
+  page: Int
+  limit: Int
+  sort: SortType
+  sortBy: String
+  where: [CommonMatchInput!]
+  whereOperator: WHERE_OPERATOR
+}
+
+enum SortType {
+  ASC
+  DESC
+}
+
+input CommonMatchInput {
+  key: String!
+  operator: MatchOperator!
+  value: String
+}
+
+enum MatchOperator {
+  eq
+  ne
+  gt
+  gte
+  lt
+  lte
+  in
+  nin
+  exists
+  contains
+}
+
+enum WHERE_OPERATOR {
+  and
+  or
+}
+
+input OrganizationListQueryInput {
+  page: Int
+  limit: Int
+  sort: SortType
+  sortBy: String
+  where: [CommonMatchInput!]
+  whereOperator: WHERE_OPERATOR
+}
+
+input TaskListQueryDto {
+  page: Int
+  limit: Int
+  sort: SortType
+  sortBy: String
+  where: [CommonMatchInput!]
+  whereOperator: WHERE_OPERATOR
+}
+
+input ActivityListQueryDto {
+  page: Int
+  limit: Int
+  sort: SortType
+  sortBy: String
+  where: [CommonMatchInput!]
+  whereOperator: WHERE_OPERATOR
+}
+
+type Mutation {
+  registration(input: RegistrationUserInput!): ApiCommonActionOutput!
+  login(payload: LoginInput!): ApiCommonActionOutput!
+  updateUser(input: UpdateUserInput!): User!
+  updateUserAndEmployeeRole(input: UpdateUserAndEmployeeRoleInput!): Boolean!
+  removeUser(input: CommonMatchInput!): Boolean
+  createOrganization(payload: CreateOrganizationInput!): Organization!
+  updateOrganization(updatePayload: UpdateOrganizationInput!, orgUID: String!): Organization!
+  sendInviteToMember(payload: InviteMemberToOrganizationInput!): ApiCommonActionOutput!
+  verifyMemberInvitation(payload: VerifyInviteMemberToOrganizationInput!): ApiCommonActionOutput!
+  generateApiToken(_id: String!, orgUID: String!): Boolean!
+  generateApiKey(_id: String!, orgUID: String!): Boolean!
+  disableOrganization(_id: String!, orgUID: String!): Boolean!
+  sendMagicLink(payload: MagicLinkAuthenticationInput!): ApiCommonActionOutput!
+  createTask(input: CreateTaskManagementInput!): TaskManagement!
+  updateTask(input: UpdateTaskManagementInput!): Boolean!
+  removeTask(input: CommonMatchInput!): Boolean
+  createActivity(payload: CreateDailyActivityDto!): DailyActivity!
+  updateActivity(payload: UpdateDailyActivityInputDto!, orgUID: String!, userId: String!): Boolean!
+  removeActivity(_id: String!): DailyActivity!
+}
+
+input RegistrationUserInput {
+  _id: ID
+  name: String
+
+  """User email"""
+  email: String
+  password: String
+
+  """User role"""
+  role: USER_ROLE
+
+  """User avatar"""
+  avatar: String
+  phone: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  _id: String
+  name: String
+
+  """User email"""
+  email: String
+  password: String
+
+  """User role"""
+  role: USER_ROLE
+
+  """User avatar"""
+  avatar: String
+  phone: String
+}
+
+input UpdateUserAndEmployeeRoleInput {
+  user_id: String
+  employee_id: String
+  role: String
+}
+
+input CreateOrganizationInput {
+  _id: ID
+  name: String!
+  tagline: String
+  orgUID: String
+  businessEmail: String!
+  businessPhone: String!
+  address: String!
+  cover: ServerFileInput
+  employees: [String!]
+  isVerified: Boolean
+  status: Organization_Status
+  settings: OrganizationSettingsInput
+  socialLinks: SocialLinksInput
+  metaSetupData: MetaSetupDataInput
+  owner: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input ServerFileInput {
+  bucket: String
+  region: String
+  key: String
+  externalUrl: String
+}
+
+input OrganizationSettingsInput {
+  apiKey: String
+  apiToken: String
+}
+
+input SocialLinksInput {
+  facebook: String
+  x: String
+  instagram: String
+  youtube: String
+  daraz: String
+}
+
+input MetaSetupDataInput {
+  pixelId: String
+}
+
+input UpdateOrganizationInput {
+  _id: ID
+  name: String
+  tagline: String
+  orgUID: String
+  businessEmail: String
+  businessPhone: String
+  address: String
+  cover: ServerFileInput
+  employees: [String!]
+  isVerified: Boolean
+  status: Organization_Status
+  settings: OrganizationSettingsInput
+  socialLinks: SocialLinksInput
+  metaSetupData: MetaSetupDataInput
+  owner: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input InviteMemberToOrganizationInput {
+  email: String!
+  orgId: String!
+}
+
+input VerifyInviteMemberToOrganizationInput {
+  token: String!
+}
+
+input MagicLinkAuthenticationInput {
+  email: String!
+}
+
+input CreateTaskManagementInput {
+  _id: ID
+  taskCreatedBy: String!
+  client: String!
+  taskDetails: TaskDetails!
+  taskId: String!
+  files: [ServerFileReferenceInput!]
+  totalBillAmount: Int!
+  paidBillAmount: Int!
+  dueAmount: Int!
+  progressStatus: Task_Progress_Status = PENDING
+  paymentStatus: Payment_Status! = DUE
+  deadLine: DateTime!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input TaskDetails {
+  taskName: String!
+  taskAssignTo: String!
+  taskDescription: String
+  issuesDescription: String
+}
+
+input ServerFileReferenceInput {
+  fileUrl: String!
+}
+
+input UpdateTaskManagementInput {
+  _id: String!
+  taskCreatedBy: String
+  client: String
+  taskDetails: TaskDetails
+  taskId: String
+  files: [ServerFileReferenceInput!]
+  totalBillAmount: Int
+  paidBillAmount: Int
+  dueAmount: Int
+  progressStatus: Task_Progress_Status = PENDING
+  paymentStatus: Payment_Status = DUE
+  deadLine: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CreateDailyActivityDto {
+  _id: ID
+  orgUID: String!
+  user: String
+  ebadah: EbadahInputDto
+  jikirAjkar: JikirInputDto
+  exercise: ExerciseInputDto
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input EbadahInputDto {
+  namajWithJamath: Float
+  extraNamaj: Float
+  ishraq: Boolean
+  tahajjud: Boolean
+  tilwat: String
+  hadith: Float
+  readingBook: String
+  waqiyah: Boolean
+  mulk: Boolean
+  translation: String
+}
+
+input JikirInputDto {
+  istigfar: Float
+  durudYunus: Float
+  durud: Float
+  doaTawhid: Float
+}
+
+input ExerciseInputDto {
+  pushUp: Float
+  squats: Float
+  seatUp: Float
+  running: Float
+  jumpingJack: Float
+  plank: Float
+  dumbbleCurl: Float
+  others: String
+}
+
+input UpdateDailyActivityInputDto {
+  _id: ID!
+  orgUID: String
+  user: String
+  ebadah: EbadahInputDto
+  jikirAjkar: JikirInputDto
+  exercise: ExerciseInputDto
+  createdAt: DateTime
+  updatedAt: DateTime
+}
