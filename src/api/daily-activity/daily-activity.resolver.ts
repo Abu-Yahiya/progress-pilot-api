@@ -15,6 +15,7 @@ export class DailyActivityResolver {
   constructor(private readonly activityService: DailyActivityService) {}
 
   @Mutation(() => DailyActivity)
+  // @UseGuards(GqlAuthGuard)
   async createActivity(@Args('payload') payload: CreateDailyActivityDto) {
     try {
       return this.activityService.create(payload);
@@ -24,6 +25,7 @@ export class DailyActivityResolver {
   }
 
   @Query(() => DailyActivityPagination, { name: 'activitiesByOrgAndUser' })
+  // @UseGuards(GqlAuthGuard)
   findAll(
     @Args('input', { nullable: true }) input: ActivityListQueryDto,
     @Args('orgUID', { type: () => String }) orgUID: string,
@@ -39,6 +41,7 @@ export class DailyActivityResolver {
   }
 
   @Query(() => DailyActivity, { name: 'activityByOrgAndUser' })
+  // @UseGuards(GqlAuthGuard)
   findOne(
     @Args('_id', { type: () => String }) _id: string,
     @Args('orgUID', { type: () => String }) orgUID: string,
@@ -50,6 +53,7 @@ export class DailyActivityResolver {
   }
 
   @Mutation(() => Boolean)
+  // @UseGuards(GqlAuthGuard)
   async updateActivity(
     @Args('payload') payload: UpdateDailyActivityInputDto,
     @Args('orgUID', { type: () => String }) orgUID: string,
@@ -60,6 +64,7 @@ export class DailyActivityResolver {
   }
 
   @Mutation(() => DailyActivity)
+  // @UseGuards(GqlAuthGuard)
   removeActivity(@Args('_id', { type: () => String }) _id: string) {
     return this.activityService.remove(_id);
   }

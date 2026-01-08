@@ -278,7 +278,6 @@ type Mutation {
   registration(input: RegistrationUserInput!): ApiCommonActionOutput!
   login(payload: LoginInput!): ApiCommonActionOutput!
   updateUser(input: UpdateUserInput!): User!
-  updateUserAndEmployeeRole(input: UpdateUserAndEmployeeRoleInput!): Boolean!
   removeUser(input: CommonMatchInput!): Boolean
   createOrganization(payload: CreateOrganizationInput!): Organization!
   updateOrganization(updatePayload: UpdateOrganizationInput!, orgUID: String!): Organization!
@@ -331,12 +330,6 @@ input UpdateUserInput {
   """User avatar"""
   avatar: String
   phone: String
-}
-
-input UpdateUserAndEmployeeRoleInput {
-  user_id: String
-  employee_id: String
-  role: String
 }
 
 input CreateOrganizationInput {

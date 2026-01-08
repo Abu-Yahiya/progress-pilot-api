@@ -1,15 +1,19 @@
+import { GqlAuthGuard } from '@/src/app/config/jwtGqlGuard';
+import { Roles } from '@/src/app/decorators/role.decorator';
+import { RolesGuard } from '@/src/app/guards/role.guard';
 import { ApiCommonActionOutput } from '@/src/shared/common/api-response';
 import { CommonMatchInput } from '@/src/shared/dto/CommonFindOneDto';
 import { mongodbFindObjectBuilder } from '@/src/shared/utils/filterBuilder';
 import getGqlFields from '@/src/shared/utils/get-gql-fields';
-import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  UseGuards,
+} from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { LoginInput } from './dto/login-input.dto';
 import { RegistrationUserInput } from './dto/registration-user.input';
-import {
-  UpdateUserAndEmployeeRoleInput,
-  UpdateUserInput,
-} from './dto/update-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 import { UserListQueryDto } from './dto/user-list-query.dto';
 import { User, USER_ROLE, UserPagination } from './entities/user.entity';
 import { UserService } from './user.service';
@@ -38,7 +42,7 @@ export class UserResolver {
     if (authUser) {
       const token = await this.usersService.generateRefreshToken({
         email: authUser?.email,
-        role: USER_ROLE.ADMIN,
+        role: authUser.role,
       });
 
       return {
@@ -50,16 +54,9 @@ export class UserResolver {
     throw new ForbiddenException('Access denied!');
   }
 
-  // @Mutation(() => AuthenticationResponseInput)
-  // async login(@Args('input') input: LoginInput) {
-  //   try {
-  //     return this.usersService.signIn(input);
-  //   } catch (err) {
-  //     throw new BadRequestException(err?.message);
-  //   }
-  // }
-
   @Query(() => UserPagination, { name: 'users' })
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(USER_ROLE.ADMIN)
   findAll(
     @Args('input', { nullable: true }) input: UserListQueryDto,
     @Info() info: any,
@@ -73,6 +70,8 @@ export class UserResolver {
   }
 
   @Query(() => User, { name: 'user' })
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(USER_ROLE.ADMIN)
   findOne(@Args('input') input: CommonMatchInput) {
     try {
       const find = mongodbFindObjectBuilder(input);
@@ -83,6 +82,8 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(USER_ROLE.ADMIN)
   async updateUser(@Args('input') input: UpdateUserInput) {
     try {
       await this.usersService.update(input._id, input);
@@ -92,20 +93,9 @@ export class UserResolver {
     }
   }
 
-  @Mutation(() => Boolean)
-  async updateUserAndEmployeeRole(
-    @Args('input')
-    input: UpdateUserAndEmployeeRoleInput,
-  ) {
-    try {
-      await this.usersService.roleUpdate(input);
-      return true;
-    } catch (err) {
-      throw new BadRequestException(err.message);
-    }
-  }
-
   @Mutation(() => Boolean, { nullable: true })
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(USER_ROLE.ADMIN)
   async removeUser(@Args('input') input: CommonMatchInput) {
     try {
       const find = mongodbFindObjectBuilder(input);

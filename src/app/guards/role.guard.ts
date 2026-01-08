@@ -14,21 +14,22 @@ export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.get<USER_ROLE>(
+    const requiredRole = this.reflector.get<USER_ROLE>(
       ROLE_KEY,
       context.getHandler(),
     );
 
-    if (!requiredRoles) true;
-
+    if (!requiredRole) true;
     const ctx = GqlExecutionContext.create(context);
     const { user } = ctx.getContext().req;
 
-    const hasAccess = requiredRoles.includes(user.role);
+    const hasAccess = requiredRole === user.role;
 
     // if user not exist
     if (!user || !hasAccess) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        'You have no permission in this resource',
+      );
     }
 
     return hasAccess;
