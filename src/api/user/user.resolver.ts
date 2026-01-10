@@ -70,8 +70,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { name: 'user' })
-  @UseGuards(GqlAuthGuard, RolesGuard)
-  @Roles(USER_ROLE.ADMIN)
+  @UseGuards(GqlAuthGuard)
   findOne(@Args('input') input: CommonMatchInput) {
     try {
       const find = mongodbFindObjectBuilder(input);
