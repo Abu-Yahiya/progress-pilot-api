@@ -38,6 +38,7 @@ async function bootstrap() {
       'https://studio.apollographql.com',
       'http://localhost:5173',
       'http://localhost:3000',
+      'https://progress-pilot-delta.vercel.app',
     ],
     credentials: true,
   });
