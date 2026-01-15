@@ -2,18 +2,87 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ServerFileEntity {
-  bucket: String
-  region: String
-  key: String
-  externalUrl: String
-}
-
 type PaginationMeta {
   totalCount: Float!
   currentPage: Float!
   hasNextPage: Boolean!
   totalPages: Float!
+}
+
+type User {
+  _id: ID
+  name: String
+  email: String!
+  phone: String
+  password: String
+  avatar: String
+  role: USER_ROLE!
+}
+
+enum USER_ROLE {
+  ADMIN
+  LEARNER
+}
+
+type UserPagination {
+  nodes: [User!]
+  meta: PaginationMeta
+}
+
+type ExerciseTargetInput {
+  pushUp: Float
+  squats: Float
+  seatUp: Float
+  running: Float
+  jumpingJack: Float
+  plank: Float
+  dumbbleCurl: Float
+}
+
+type EbadahTargetInput {
+  namajWithJamath: Float
+  extraNamaj: Float
+  ishraq: Boolean
+  tahajjud: Boolean
+  tilwat: Float
+  hadith: Float
+  waqiyah: Boolean
+  mulk: Boolean
+}
+
+type JikirTargetInput {
+  istigfar: Float
+  durudYunus: Float
+  durud: Float
+  doaTawhid: Float
+}
+
+type ActivitySettings {
+  _id: ID
+  orgUID: String!
+  user: User
+  ebadahTarget: EbadahTargetInput
+  jikirAjkarTarget: JikirTargetInput
+  exerciseTarget: ExerciseTargetInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ActivitySettingsPagination {
+  nodes: [ActivitySettings!]
+  meta: PaginationMeta
+}
+
+type ServerFileEntity {
+  bucket: String
+  region: String
+  key: String
+  externalUrl: String
 }
 
 type OrganizationSettingsSchema {
@@ -59,33 +128,8 @@ enum Organization_Status {
   Disable
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type OrganizationWithPagination {
   nodes: [Organization!]
-  meta: PaginationMeta
-}
-
-type User {
-  _id: ID
-  name: String
-  email: String!
-  phone: String
-  password: String
-  avatar: String
-  role: USER_ROLE!
-}
-
-enum USER_ROLE {
-  ADMIN
-  LEARNER
-}
-
-type UserPagination {
-  nodes: [User!]
   meta: PaginationMeta
 }
 
@@ -131,6 +175,20 @@ type JikirInput {
   doaTawhid: Float
 }
 
+type ITTaskInput {
+  title: String!
+  description: String
+  progressScore: Float
+  status: Task_Status
+}
+
+enum Task_Status {
+  Pending
+  InProgress
+  Completed
+  Cancelled
+}
+
 type DailyActivity {
   _id: ID
   orgUID: String!
@@ -138,6 +196,7 @@ type DailyActivity {
   ebadah: EbadahInput
   jikirAjkar: JikirInput
   exercise: ExerciseInput
+  it_task: ITTaskInput
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -207,6 +266,8 @@ type Query {
   task(input: CommonMatchInput!): TaskManagement!
   activitiesByOrgAndUser(input: ActivityListQueryDto, orgUID: String!, userId: String!): DailyActivityPagination!
   activityByOrgAndUser(_id: String!, orgUID: String!, userId: String!): DailyActivity!
+  allActivitySettings(input: ActivitySettingsListQueryDto, orgUID: String!, userId: String!): ActivitySettingsPagination!
+  myActivitySetting(_id: String!, orgUID: String!, userId: String!): ActivitySettings!
 }
 
 input UserListQueryDto {
@@ -274,6 +335,15 @@ input ActivityListQueryDto {
   whereOperator: WHERE_OPERATOR
 }
 
+input ActivitySettingsListQueryDto {
+  page: Int
+  limit: Int
+  sort: SortType
+  sortBy: String
+  where: [CommonMatchInput!]
+  whereOperator: WHERE_OPERATOR
+}
+
 type Mutation {
   registration(input: RegistrationUserInput!): ApiCommonActionOutput!
   login(payload: LoginInput!): ApiCommonActionOutput!
@@ -293,6 +363,9 @@ type Mutation {
   createActivity(payload: CreateDailyActivityDto!): DailyActivity!
   updateActivity(payload: UpdateDailyActivityInputDto!, orgUID: String!, userId: String!): Boolean!
   removeActivity(_id: String!): DailyActivity!
+  createActivitySettings(payload: CreateActivitySettingsDto!): ActivitySettings!
+  updateActivitySetting(payload: UpdateActivitySettingsInputDto!, orgUID: String!, userId: String!): Boolean!
+  removeActivitySetting(_id: String!): ActivitySettings!
 }
 
 input RegistrationUserInput {
@@ -461,6 +534,7 @@ input CreateDailyActivityDto {
   ebadah: EbadahInputDto
   jikirAjkar: JikirInputDto
   exercise: ExerciseInputDto
+  it_task: ITTaskInputDto
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -496,6 +570,13 @@ input ExerciseInputDto {
   others: String
 }
 
+input ITTaskInputDto {
+  title: String!
+  description: String
+  progressScore: Float = 0
+  status: Task_Status = Pending
+}
+
 input UpdateDailyActivityInputDto {
   _id: ID!
   orgUID: String
@@ -503,6 +584,57 @@ input UpdateDailyActivityInputDto {
   ebadah: EbadahInputDto
   jikirAjkar: JikirInputDto
   exercise: ExerciseInputDto
+  it_task: ITTaskInputDto
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CreateActivitySettingsDto {
+  _id: ID
+  orgUID: String!
+  user: String
+  ebadahTarget: EbadahTargetInputDto
+  jikirAjkarTarget: JikirTargetInputDto
+  exerciseTarget: ExerciseTargetInputDto
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input EbadahTargetInputDto {
+  namajWithJamath: Float
+  extraNamaj: Float
+  ishraq: Boolean
+  tahajjud: Boolean
+  tilwat: Float
+  hadith: Float
+  waqiyah: Boolean
+  mulk: Boolean
+}
+
+input JikirTargetInputDto {
+  istigfar: Float
+  durudYunus: Float
+  durud: Float
+  doaTawhid: Float
+}
+
+input ExerciseTargetInputDto {
+  pushUp: Float
+  squats: Float
+  seatUp: Float
+  running: Float
+  jumpingJack: Float
+  plank: Float
+  dumbbleCurl: Float
+}
+
+input UpdateActivitySettingsInputDto {
+  _id: ID!
+  orgUID: String
+  user: String
+  ebadahTarget: EbadahTargetInputDto
+  jikirAjkarTarget: JikirTargetInputDto
+  exerciseTarget: ExerciseTargetInputDto
   createdAt: DateTime
   updatedAt: DateTime
 }

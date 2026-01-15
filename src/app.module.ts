@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
+import { ActivitySettingsModule } from './api/activity-settings/activity-settings.module';
 import { AuthenticationModule } from './api/authentication/authentication.module';
 import { DailyActivityModule } from './api/daily-activity/daily-activity.module';
 import { FileStorageModule } from './api/file-storage/file-storage.module';
@@ -28,7 +29,6 @@ import { JwtGlobalModule } from './shared/jwt-module/jwt-global.module';
       ],
     }),
 
-
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/gql-schema.gql'), // Automatically generate schema
@@ -48,6 +48,7 @@ import { JwtGlobalModule } from './shared/jwt-module/jwt-global.module';
     TaskManagementModule,
     FileStorageModule,
     DailyActivityModule,
+    ActivitySettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

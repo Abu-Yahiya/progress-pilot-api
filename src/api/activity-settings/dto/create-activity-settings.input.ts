@@ -1,9 +1,8 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
-import { Task_Status } from '../entities/daily-activity.entity';
 
 @InputType()
-export class ExerciseInputDto {
+export class ExerciseTargetInputDto {
   @Field(() => Number, { nullable: true })
   @IsOptional()
   pushUp?: number;
@@ -31,14 +30,10 @@ export class ExerciseInputDto {
   @Field(() => Number, { nullable: true })
   @IsOptional()
   dumbbleCurl?: number;
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  others?: string;
 }
 
 @InputType()
-export class EbadahInputDto {
+export class EbadahTargetInputDto {
   @Field(() => Number, { nullable: true })
   @IsOptional()
   namajWithJamath?: number;
@@ -55,17 +50,13 @@ export class EbadahInputDto {
   @IsOptional()
   tahajjud?: boolean;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => Number, { nullable: true })
   @IsOptional()
-  tilwat?: string;
+  tilwat?: number;
 
   @Field(() => Number, { nullable: true })
   @IsOptional()
   hadith?: number;
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  readingBook?: string;
 
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
@@ -74,14 +65,10 @@ export class EbadahInputDto {
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
   mulk?: boolean;
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  translation?: string;
 }
 
 @InputType()
-export class JikirInputDto {
+export class JikirTargetInputDto {
   @Field(() => Number, { nullable: true })
   @IsOptional()
   istigfar?: number;
@@ -100,29 +87,7 @@ export class JikirInputDto {
 }
 
 @InputType()
-export class ITTaskInputDto {
-  @Field(() => String)
-  @IsNotEmpty()
-  title: string;
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  description?: string;
-
-  @Field(() => Number, { defaultValue: 0, nullable: true })
-  @IsOptional()
-  progressScore: number;
-
-  @Field(() => Task_Status, {
-    defaultValue: Task_Status.Pending,
-    nullable: true,
-  })
-  @IsOptional()
-  status?: Task_Status;
-}
-
-@InputType()
-export class CreateDailyActivityDto {
+export class CreateActivitySettingsDto {
   @Field(() => ID, { nullable: true })
   _id: string;
 
@@ -135,21 +100,17 @@ export class CreateDailyActivityDto {
   @IsMongoId()
   user?: string;
 
-  @Field(() => EbadahInputDto, { nullable: true })
+  @Field(() => EbadahTargetInputDto, { nullable: true })
   @IsOptional()
-  ebadah?: EbadahInputDto;
+  ebadahTarget?: EbadahTargetInputDto;
 
-  @Field(() => JikirInputDto, { nullable: true })
+  @Field(() => JikirTargetInputDto, { nullable: true })
   @IsOptional()
-  jikirAjkar?: JikirInputDto;
+  jikirAjkarTarget?: JikirTargetInputDto;
 
-  @Field(() => ExerciseInputDto, { nullable: true })
+  @Field(() => ExerciseTargetInputDto, { nullable: true })
   @IsOptional()
-  exercise?: ExerciseInputDto;
-
-  @Field(() => ITTaskInputDto, { nullable: true })
-  @IsOptional()
-  it_task?: ITTaskInputDto;
+  exerciseTarget?: ExerciseTargetInputDto;
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date;

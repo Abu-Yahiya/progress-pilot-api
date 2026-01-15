@@ -1,4 +1,4 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 import { Paginated } from '@/src/shared/object-types/paginationObject';
 import { ID } from '@nestjs/graphql';
@@ -7,21 +7,10 @@ import { Document, Types as MongooseTypes } from 'mongoose';
 import { User } from '../../user/entities/user.entity';
 
 // ---------------- Main Schema ----------------
-export type DailyActivityDocument = DailyActivity & Document;
-
-export enum Task_Status {
-  Pending = 'Pending',
-  InProgress = 'In-Progress',
-  Completed = 'Completed',
-  Cancelled = 'Cancelled',
-}
-
-registerEnumType(Task_Status, {
-  name: 'Task_Status',
-});
+export type ActivitySettingsDocument = ActivitySettings & Document;
 
 @ObjectType()
-export class ExerciseInput {
+export class ExerciseTargetInput {
   @Prop() @Field(() => Number, { nullable: true }) pushUp?: number;
   @Prop() @Field(() => Number, { nullable: true }) squats?: number;
   @Prop() @Field(() => Number, { nullable: true }) seatUp?: number;
@@ -29,24 +18,21 @@ export class ExerciseInput {
   @Prop() @Field(() => Number, { nullable: true }) jumpingJack?: number;
   @Prop() @Field(() => Number, { nullable: true }) plank?: number;
   @Prop() @Field(() => Number, { nullable: true }) dumbbleCurl?: number;
-  @Prop() @Field(() => String, { nullable: true }) others?: string;
 }
 
 @ObjectType()
-export class EbadahInput {
+export class EbadahTargetInput {
   @Prop() @Field(() => Number, { nullable: true }) namajWithJamath?: number;
   @Prop() @Field(() => Number, { nullable: true }) extraNamaj?: number;
   @Prop() @Field(() => Boolean, { nullable: true }) ishraq?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) tahajjud?: boolean;
-  @Prop() @Field(() => String, { nullable: true }) tilwat?: string;
+  @Prop() @Field(() => Number, { nullable: true }) tilwat?: number;
   @Prop() @Field(() => Number, { nullable: true }) hadith?: number;
-  @Prop() @Field(() => String, { nullable: true }) readingBook?: string;
   @Prop() @Field(() => Boolean, { nullable: true }) waqiyah?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) mulk?: boolean;
-  @Prop() @Field(() => String, { nullable: true }) translation?: string;
 }
 @ObjectType()
-export class JikirInput {
+export class JikirTargetInput {
   @Prop() @Field(() => Number, { nullable: true }) istigfar?: number;
   @Prop() @Field(() => Number, { nullable: true }) durudYunus?: number;
   @Prop() @Field(() => Number, { nullable: true }) durud?: number;
@@ -54,25 +40,8 @@ export class JikirInput {
 }
 
 @ObjectType()
-export class ITTaskInput {
-  @Prop() @Field(() => String) title: string;
-  @Prop() @Field(() => String, { nullable: true }) description?: string;
-
-  @Prop()
-  @Field(() => Number, { defaultValue: 0, nullable: true })
-  progressScore: number;
-
-  @Prop()
-  @Field(() => Task_Status, {
-    defaultValue: Task_Status.Pending,
-    nullable: true,
-  })
-  status?: Task_Status;
-}
-
-@ObjectType()
 @Schema({ timestamps: true })
-export class DailyActivity {
+export class ActivitySettings {
   @Field(() => ID, { nullable: true })
   _id: string;
 
@@ -85,20 +54,16 @@ export class DailyActivity {
   user?: string;
 
   @Prop()
-  @Field(() => EbadahInput, { nullable: true })
-  ebadah?: EbadahInput;
+  @Field(() => EbadahTargetInput, { nullable: true })
+  ebadahTarget?: EbadahTargetInput;
 
   @Prop()
-  @Field(() => JikirInput, { nullable: true })
-  jikirAjkar?: JikirInput;
+  @Field(() => JikirTargetInput, { nullable: true })
+  jikirAjkarTarget?: JikirTargetInput;
 
   @Prop()
-  @Field(() => ExerciseInput, { nullable: true })
-  exercise?: ExerciseInput;
-
-  @Prop()
-  @Field(() => ITTaskInput, { nullable: true })
-  it_task?: ITTaskInput;
+  @Field(() => ExerciseTargetInput, { nullable: true })
+  exerciseTarget?: ExerciseTargetInput;
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date;
@@ -107,8 +72,9 @@ export class DailyActivity {
   updatedAt?: Date;
 }
 
-export const DailyActivitySchema = SchemaFactory.createForClass(DailyActivity);
+export const ActivitySettingsSchema =
+  SchemaFactory.createForClass(ActivitySettings);
 
 // ---------------- Pagination ----------------
 @ObjectType()
-export class DailyActivityPagination extends Paginated(DailyActivity) {}
+export class ActivitySettingsPagination extends Paginated(ActivitySettings) {}
