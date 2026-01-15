@@ -1,7 +1,7 @@
 import { AppPaginationResponse } from '@/src/shared/contracts/app-pagination-response';
 import { SortType } from '@/src/shared/dto/CommonPaginationDto';
 import { filterBuilder } from '@/src/shared/utils/filterBuilder';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ActivitySettingsListQueryDto } from './dto/activity-settings-list-dto';
@@ -18,7 +18,16 @@ export class ActivitySettingsService {
     @InjectModel(ActivitySettings.name)
     private activitySettingsModel: Model<ActivitySettingsDocument>,
   ) {}
-  create(payload: CreateActivitySettingsDto) {
+  async create(payload: CreateActivitySettingsDto) {
+    const isExistSetting = await this.activitySettingsModel.findOne({
+      user: payload?.user,
+    });
+
+    if (isExistSetting) {
+      return new ForbiddenException(
+        'Settings already exist. Please edit your settings',
+      );
+    }
     return this.activitySettingsModel.create(payload);
   }
 
@@ -64,9 +73,9 @@ export class ActivitySettingsService {
    * @param fields - string[]
    * @returns
    */
-  async findOne(_id: string, orgUID: string, userId: string, fields: string[]) {
+  async findOne(orgUID: string, userId: string, fields: string[]) {
     const cursor = this.activitySettingsModel.findOne({
-      _id,
+      // _id,
       orgUID,
       user: userId,
     });

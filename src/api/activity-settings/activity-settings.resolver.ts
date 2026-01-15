@@ -47,13 +47,12 @@ export class ActivitySettingsResolver {
   @Query(() => ActivitySettings, { name: 'myActivitySetting' })
   // @UseGuards(GqlAuthGuard)
   findOne(
-    @Args('_id', { type: () => String }) _id: string,
     @Args('orgUID', { type: () => String }) orgUID: string,
     @Args('userId', { type: () => String }) userId: string,
     @Info() info: any,
   ) {
     const fields = getGqlFields(info);
-    return this.activitySettingService.findOne(_id, orgUID, userId, fields);
+    return this.activitySettingService.findOne(orgUID, userId, fields);
   }
 
   @Mutation(() => Boolean)
