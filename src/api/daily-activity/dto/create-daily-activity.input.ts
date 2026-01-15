@@ -1,5 +1,5 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsArray, IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
 import { Task_Status } from '../entities/daily-activity.entity';
 
 @InputType()
@@ -147,9 +147,10 @@ export class CreateDailyActivityDto {
   @IsOptional()
   exercise?: ExerciseInputDto;
 
-  @Field(() => ITTaskInputDto, { nullable: true })
+  @Field(() => [ITTaskInputDto], { nullable: true })
   @IsOptional()
-  it_task?: ITTaskInputDto;
+  @IsArray()
+  it_task?: ITTaskInputDto[];
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date;

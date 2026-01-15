@@ -97,8 +97,8 @@ export class DailyActivity {
   exercise?: ExerciseInput;
 
   @Prop()
-  @Field(() => ITTaskInput, { nullable: true })
-  it_task?: ITTaskInput;
+  @Field(() => [ITTaskInput], { nullable: true })
+  it_task?: ITTaskInput[];
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date;
