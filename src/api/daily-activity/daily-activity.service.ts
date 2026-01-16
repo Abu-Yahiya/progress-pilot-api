@@ -32,7 +32,8 @@ export class DailyActivityService {
     const where: any = filterBuilder(input.where, input.whereOperator);
 
     // filter
-    where.$and.push({ orgUID });
+    where.$and.push({ orgUID, user: userId });
+    // where.$and.push({ userId });
 
     const cursor = this.activityModel.find(where);
 

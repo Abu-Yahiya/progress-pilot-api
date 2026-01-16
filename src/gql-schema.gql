@@ -196,7 +196,7 @@ type DailyActivity {
   ebadah: EbadahInput
   jikirAjkar: JikirInput
   exercise: ExerciseInput
-  it_task: ITTaskInput
+  it_task: [ITTaskInput!]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -267,7 +267,7 @@ type Query {
   activitiesByOrgAndUser(input: ActivityListQueryDto, orgUID: String!, userId: String!): DailyActivityPagination!
   activityByOrgAndUser(_id: String!, orgUID: String!, userId: String!): DailyActivity!
   allActivitySettings(input: ActivitySettingsListQueryDto, orgUID: String!, userId: String!): ActivitySettingsPagination!
-  myActivitySetting(_id: String!, orgUID: String!, userId: String!): ActivitySettings!
+  myActivitySetting(orgUID: String!, userId: String!): ActivitySettings!
 }
 
 input UserListQueryDto {
@@ -534,7 +534,7 @@ input CreateDailyActivityDto {
   ebadah: EbadahInputDto
   jikirAjkar: JikirInputDto
   exercise: ExerciseInputDto
-  it_task: ITTaskInputDto
+  it_task: [ITTaskInputDto!]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -584,7 +584,7 @@ input UpdateDailyActivityInputDto {
   ebadah: EbadahInputDto
   jikirAjkar: JikirInputDto
   exercise: ExerciseInputDto
-  it_task: ITTaskInputDto
+  it_task: [ITTaskInputDto!]
   createdAt: DateTime
   updatedAt: DateTime
 }
