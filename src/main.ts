@@ -39,6 +39,7 @@ async function bootstrap() {
       'http://localhost:5173',
       'http://localhost:3000',
       'https://progress-pilot-delta.vercel.app',
+      'https://progresspilot.vercel.app',
     ],
     credentials: true,
   });
