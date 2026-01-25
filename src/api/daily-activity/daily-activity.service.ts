@@ -5,11 +5,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ActivityListQueryDto } from './dto/activity-list-dto';
-import { CreateDailyActivityDto } from './dto/create-daily-activity.input';
+import {
+  CreateDailyActivityDto,
+  ITTaskInputDto,
+} from './dto/create-daily-activity.input';
 import { UpdateDailyActivityInputDto } from './dto/update-daily-activity.input';
 import {
   DailyActivity,
   DailyActivityDocument,
+  Task_Status,
 } from './entities/daily-activity.entity';
 
 @Injectable()
@@ -19,7 +23,30 @@ export class DailyActivityService {
     private activityModel: Model<DailyActivityDocument>,
   ) {}
   create(payload: CreateDailyActivityDto) {
-    return this.activityModel.create(payload);
+    let itTasks = [];
+
+    payload?.it_task?.map((task) =>
+      itTasks?.push({
+        ...task,
+        status: this.getStatus(task),
+      }),
+    );
+
+    const input = { ...payload, it_task: itTasks };
+
+    return this.activityModel.create(input);
+  }
+
+  getStatus(task: ITTaskInputDto) {
+    if (task?.progressScore === 0) {
+      return Task_Status.Pending;
+    } else if (task?.progressScore > 0 && task?.progressScore < 100) {
+      return Task_Status.InProgress;
+    } else if (task?.progressScore === 100) {
+      return Task_Status.Completed;
+    } else {
+      return Task_Status.Cancelled;
+    }
   }
 
   async findAll(
@@ -78,7 +105,17 @@ export class DailyActivityService {
     userId: string,
     payload: UpdateDailyActivityInputDto,
   ) {
-    return this.activityModel.updateOne({ _id, orgUID, user: userId }, payload);
+    let itTasks = [];
+
+    payload?.it_task?.map((task) =>
+      itTasks?.push({
+        ...task,
+        status: this.getStatus(task),
+      }),
+    );
+
+    const input = { ...payload, it_task: itTasks };
+    return this.activityModel.updateOne({ _id, orgUID, user: userId }, input);
   }
 
   remove(_id: string) {
