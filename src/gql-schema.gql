@@ -57,7 +57,7 @@ type EbadahTargetInput {
   hadith: Float
   waqiyah: Boolean
   mulk: Boolean
-  khaf: Boolean
+  kahf: Boolean
 }
 
 type JikirTargetInput {
@@ -178,7 +178,7 @@ type EbadahInput {
   tahajjud: Boolean
   hadith: Float
   waqiyah: Boolean
-  khaf: Boolean
+  kahf: Boolean
   mulk: Boolean
   tilwat: TilwatTranslationInput
   readingBook: TilwatTranslationInput
@@ -277,14 +277,29 @@ type Query {
   users(input: UserListQueryDto): UserPagination!
   user(input: CommonMatchInput!): User!
   organizations(input: OrganizationListQueryInput): OrganizationWithPagination!
-  myOrganizations(input: OrganizationListQueryInput, _id: String!): OrganizationWithPagination!
+  myOrganizations(
+    input: OrganizationListQueryInput
+    _id: String!
+  ): OrganizationWithPagination!
   organization(_id: String!): Organization!
   organizationByUID(orgUID: String!): Organization!
   taskList(input: TaskListQueryDto): TaskManagementPagination!
   task(input: CommonMatchInput!): TaskManagement!
-  activitiesByOrgAndUser(input: ActivityListQueryDto, orgUID: String!, userId: String!): DailyActivityPagination!
-  activityByOrgAndUser(_id: String!, orgUID: String!, userId: String!): DailyActivity!
-  allActivitySettings(input: ActivitySettingsListQueryDto, orgUID: String!, userId: String!): ActivitySettingsPagination!
+  activitiesByOrgAndUser(
+    input: ActivityListQueryDto
+    orgUID: String!
+    userId: String!
+  ): DailyActivityPagination!
+  activityByOrgAndUser(
+    _id: String!
+    orgUID: String!
+    userId: String!
+  ): DailyActivity!
+  allActivitySettings(
+    input: ActivitySettingsListQueryDto
+    orgUID: String!
+    userId: String!
+  ): ActivitySettingsPagination!
   myActivitySetting(orgUID: String!, userId: String!): ActivitySettings!
 }
 
@@ -368,9 +383,16 @@ type Mutation {
   updateUser(input: UpdateUserInput!): User!
   removeUser(input: CommonMatchInput!): Boolean
   createOrganization(payload: CreateOrganizationInput!): Organization!
-  updateOrganization(updatePayload: UpdateOrganizationInput!, orgUID: String!): Organization!
-  sendInviteToMember(payload: InviteMemberToOrganizationInput!): ApiCommonActionOutput!
-  verifyMemberInvitation(payload: VerifyInviteMemberToOrganizationInput!): ApiCommonActionOutput!
+  updateOrganization(
+    updatePayload: UpdateOrganizationInput!
+    orgUID: String!
+  ): Organization!
+  sendInviteToMember(
+    payload: InviteMemberToOrganizationInput!
+  ): ApiCommonActionOutput!
+  verifyMemberInvitation(
+    payload: VerifyInviteMemberToOrganizationInput!
+  ): ApiCommonActionOutput!
   generateApiToken(_id: String!, orgUID: String!): Boolean!
   generateApiKey(_id: String!, orgUID: String!): Boolean!
   disableOrganization(_id: String!, orgUID: String!): Boolean!
@@ -379,10 +401,18 @@ type Mutation {
   updateTask(input: UpdateTaskManagementInput!): Boolean!
   removeTask(input: CommonMatchInput!): Boolean
   createActivity(payload: CreateDailyActivityDto!): DailyActivity!
-  updateActivity(payload: UpdateDailyActivityInputDto!, orgUID: String!, userId: String!): Boolean!
+  updateActivity(
+    payload: UpdateDailyActivityInputDto!
+    orgUID: String!
+    userId: String!
+  ): Boolean!
   removeActivity(_id: String!): DailyActivity!
   createActivitySettings(payload: CreateActivitySettingsDto!): ActivitySettings!
-  updateActivitySetting(payload: UpdateActivitySettingsInputDto!, orgUID: String!, userId: String!): Boolean!
+  updateActivitySetting(
+    payload: UpdateActivitySettingsInputDto!
+    orgUID: String!
+    userId: String!
+  ): Boolean!
   removeActivitySetting(_id: String!): ActivitySettings!
 }
 
@@ -390,14 +420,20 @@ input RegistrationUserInput {
   _id: ID
   name: String
 
-  """User email"""
+  """
+  User email
+  """
   email: String
   password: String
 
-  """User role"""
+  """
+  User role
+  """
   role: USER_ROLE
 
-  """User avatar"""
+  """
+  User avatar
+  """
   avatar: String
   phone: String
 }
@@ -411,14 +447,20 @@ input UpdateUserInput {
   _id: String
   name: String
 
-  """User email"""
+  """
+  User email
+  """
   email: String
   password: String
 
-  """User role"""
+  """
+  User role
+  """
   role: USER_ROLE
 
-  """User avatar"""
+  """
+  User avatar
+  """
   avatar: String
   phone: String
 }
@@ -567,7 +609,7 @@ input EbadahInputDto {
   readingBook: TilwatTranslationInputDto
   waqiyah: Boolean
   mulk: Boolean
-  khaf: Boolean
+  kahf: Boolean
   translation: TilwatTranslationInputDto
   tafsir: TilwatTranslationInputDto
 }
@@ -638,7 +680,7 @@ input EbadahTargetInputDto {
   hadith: Float
   waqiyah: Boolean
   mulk: Boolean
-  khaf: Boolean
+  kahf: Boolean
 }
 
 input TilwatTranslationTargetInputDto {

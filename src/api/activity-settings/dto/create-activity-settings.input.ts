@@ -95,7 +95,7 @@ export class EbadahTargetInputDto {
 
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
-  khaf?: boolean;
+  kahf?: boolean;
 }
 
 @InputType()

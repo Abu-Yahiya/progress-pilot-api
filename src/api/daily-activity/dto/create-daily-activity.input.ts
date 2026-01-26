@@ -92,7 +92,7 @@ export class EbadahInputDto {
 
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
-  khaf?: boolean;
+  kahf?: boolean;
 
   @Field(() => TilwatTranslationInputDto, { nullable: true })
   @IsOptional()

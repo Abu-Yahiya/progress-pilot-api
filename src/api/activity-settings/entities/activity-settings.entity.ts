@@ -53,7 +53,7 @@ export class EbadahTargetInput {
   @Prop() @Field(() => Number, { nullable: true }) hadith?: number;
   @Prop() @Field(() => Boolean, { nullable: true }) waqiyah?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) mulk?: boolean;
-  @Prop() @Field(() => Boolean, { nullable: true }) khaf?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) kahf?: boolean;
 }
 @ObjectType()
 export class JikirTargetInput {

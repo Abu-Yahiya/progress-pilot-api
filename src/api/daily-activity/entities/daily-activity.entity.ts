@@ -47,7 +47,7 @@ export class EbadahInput {
   @Prop() @Field(() => Boolean, { nullable: true }) tahajjud?: boolean;
   @Prop() @Field(() => Number, { nullable: true }) hadith?: number;
   @Prop() @Field(() => Boolean, { nullable: true }) waqiyah?: boolean;
-  @Prop() @Field(() => Boolean, { nullable: true }) khaf?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) kahf?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) mulk?: boolean;
 
   @Prop()
