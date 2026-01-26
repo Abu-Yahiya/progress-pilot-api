@@ -33,17 +33,38 @@ export class ExerciseInput {
 }
 
 @ObjectType()
+export class TilwatTranslationInput {
+  @Prop() @Field(() => Number, { nullable: true }) count: number;
+  @Prop() @Field(() => String, { nullable: true }) type: string;
+  @Prop() @Field(() => String, { nullable: true }) description: string;
+}
+
+@ObjectType()
 export class EbadahInput {
   @Prop() @Field(() => Number, { nullable: true }) namajWithJamath?: number;
   @Prop() @Field(() => Number, { nullable: true }) extraNamaj?: number;
   @Prop() @Field(() => Boolean, { nullable: true }) ishraq?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) tahajjud?: boolean;
-  @Prop() @Field(() => String, { nullable: true }) tilwat?: string;
   @Prop() @Field(() => Number, { nullable: true }) hadith?: number;
-  @Prop() @Field(() => String, { nullable: true }) readingBook?: string;
   @Prop() @Field(() => Boolean, { nullable: true }) waqiyah?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) khaf?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) mulk?: boolean;
-  @Prop() @Field(() => String, { nullable: true }) translation?: string;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  tilwat?: TilwatTranslationInput;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  readingBook?: TilwatTranslationInput;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  translation?: TilwatTranslationInput;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  tafsir?: TilwatTranslationInput;
 }
 @ObjectType()
 export class JikirInput {

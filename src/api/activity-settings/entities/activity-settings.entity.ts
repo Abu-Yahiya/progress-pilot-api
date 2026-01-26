@@ -21,15 +21,39 @@ export class ExerciseTargetInput {
 }
 
 @ObjectType()
+export class TilwatTranslationInput {
+  @Prop() @Field(() => Number, { nullable: true }) count: number;
+  @Prop() @Field(() => String, { nullable: true }) type: string;
+  @Prop() @Field(() => String, { nullable: true }) description: string;
+}
+
+@ObjectType()
 export class EbadahTargetInput {
   @Prop() @Field(() => Number, { nullable: true }) namajWithJamath?: number;
   @Prop() @Field(() => Number, { nullable: true }) extraNamaj?: number;
   @Prop() @Field(() => Boolean, { nullable: true }) ishraq?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) tahajjud?: boolean;
-  @Prop() @Field(() => Number, { nullable: true }) tilwat?: number;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  tilwat?: TilwatTranslationInput;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  readingBook?: TilwatTranslationInput;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  tafsir?: TilwatTranslationInput;
+
+  @Prop()
+  @Field(() => TilwatTranslationInput, { nullable: true })
+  translation?: TilwatTranslationInput;
+
   @Prop() @Field(() => Number, { nullable: true }) hadith?: number;
   @Prop() @Field(() => Boolean, { nullable: true }) waqiyah?: boolean;
   @Prop() @Field(() => Boolean, { nullable: true }) mulk?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) khaf?: boolean;
 }
 @ObjectType()
 export class JikirTargetInput {
