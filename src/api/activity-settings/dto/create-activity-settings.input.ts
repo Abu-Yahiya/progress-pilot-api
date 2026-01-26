@@ -33,7 +33,7 @@ export class ExerciseTargetInputDto {
 }
 
 @InputType()
-export class TilwatTranslationInputDto {
+export class TilwatTranslationTargetInputDto {
   @Field(() => Number, { nullable: true })
   @IsOptional()
   count: number;
@@ -65,21 +65,21 @@ export class EbadahTargetInputDto {
   @IsOptional()
   tahajjud?: boolean;
 
-  @Field(() => TilwatTranslationInputDto, { nullable: true })
+  @Field(() => TilwatTranslationTargetInputDto, { nullable: true })
   @IsOptional()
-  tilwat?: TilwatTranslationInputDto;
+  tilwat?: TilwatTranslationTargetInputDto;
 
-  @Field(() => TilwatTranslationInputDto, { nullable: true })
+  @Field(() => TilwatTranslationTargetInputDto, { nullable: true })
   @IsOptional()
-  readingBook?: TilwatTranslationInputDto;
+  readingBook?: TilwatTranslationTargetInputDto;
 
-  @Field(() => TilwatTranslationInputDto, { nullable: true })
+  @Field(() => TilwatTranslationTargetInputDto, { nullable: true })
   @IsOptional()
-  tafsir?: TilwatTranslationInputDto;
+  tafsir?: TilwatTranslationTargetInputDto;
 
-  @Field(() => TilwatTranslationInputDto, { nullable: true })
+  @Field(() => TilwatTranslationTargetInputDto, { nullable: true })
   @IsOptional()
-  translation?: TilwatTranslationInputDto;
+  translation?: TilwatTranslationTargetInputDto;
 
   @Field(() => Number, { nullable: true })
   @IsOptional()

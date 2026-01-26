@@ -39,15 +39,25 @@ type ExerciseTargetInput {
   dumbbleCurl: Float
 }
 
+type TilwatTranslationTargetInput {
+  count: Float
+  type: String
+  description: String
+}
+
 type EbadahTargetInput {
   namajWithJamath: Float
   extraNamaj: Float
   ishraq: Boolean
   tahajjud: Boolean
-  tilwat: Float
+  tilwat: TilwatTranslationTargetInput
+  readingBook: TilwatTranslationTargetInput
+  tafsir: TilwatTranslationTargetInput
+  translation: TilwatTranslationTargetInput
   hadith: Float
   waqiyah: Boolean
   mulk: Boolean
+  khaf: Boolean
 }
 
 type JikirTargetInput {
@@ -155,17 +165,25 @@ type ExerciseInput {
   others: String
 }
 
+type TilwatTranslationInput {
+  count: Float
+  type: String
+  description: String
+}
+
 type EbadahInput {
   namajWithJamath: Float
   extraNamaj: Float
   ishraq: Boolean
   tahajjud: Boolean
-  tilwat: String
   hadith: Float
-  readingBook: String
   waqiyah: Boolean
+  khaf: Boolean
   mulk: Boolean
-  translation: String
+  tilwat: TilwatTranslationInput
+  readingBook: TilwatTranslationInput
+  translation: TilwatTranslationInput
+  tafsir: TilwatTranslationInput
 }
 
 type JikirInput {
@@ -544,12 +562,20 @@ input EbadahInputDto {
   extraNamaj: Float
   ishraq: Boolean
   tahajjud: Boolean
-  tilwat: String
+  tilwat: TilwatTranslationInputDto
   hadith: Float
-  readingBook: String
+  readingBook: TilwatTranslationInputDto
   waqiyah: Boolean
   mulk: Boolean
-  translation: String
+  khaf: Boolean
+  translation: TilwatTranslationInputDto
+  tafsir: TilwatTranslationInputDto
+}
+
+input TilwatTranslationInputDto {
+  count: Float
+  type: String
+  description: String
 }
 
 input JikirInputDto {
@@ -605,10 +631,20 @@ input EbadahTargetInputDto {
   extraNamaj: Float
   ishraq: Boolean
   tahajjud: Boolean
-  tilwat: Float
+  tilwat: TilwatTranslationTargetInputDto
+  readingBook: TilwatTranslationTargetInputDto
+  tafsir: TilwatTranslationTargetInputDto
+  translation: TilwatTranslationTargetInputDto
   hadith: Float
   waqiyah: Boolean
   mulk: Boolean
+  khaf: Boolean
+}
+
+input TilwatTranslationTargetInputDto {
+  count: Float
+  type: String
+  description: String
 }
 
 input JikirTargetInputDto {
