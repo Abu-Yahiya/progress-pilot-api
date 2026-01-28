@@ -43,12 +43,8 @@ export class TilwatTranslationInput {
 export class EbadahInput {
   @Prop() @Field(() => Number, { nullable: true }) namajWithJamath?: number;
   @Prop() @Field(() => Number, { nullable: true }) extraNamaj?: number;
-  @Prop() @Field(() => Boolean, { nullable: true }) ishraq?: boolean;
-  @Prop() @Field(() => Boolean, { nullable: true }) tahajjud?: boolean;
   @Prop() @Field(() => Number, { nullable: true }) hadith?: number;
-  @Prop() @Field(() => Boolean, { nullable: true }) waqiyah?: boolean;
-  @Prop() @Field(() => Boolean, { nullable: true }) kahf?: boolean;
-  @Prop() @Field(() => Boolean, { nullable: true }) mulk?: boolean;
+  @Prop() @Field(() => Number, { nullable: true }) kajaNamaj?: number;
 
   @Prop()
   @Field(() => TilwatTranslationInput, { nullable: true })
@@ -72,6 +68,11 @@ export class JikirInput {
   @Prop() @Field(() => Number, { nullable: true }) durudYunus?: number;
   @Prop() @Field(() => Number, { nullable: true }) durud?: number;
   @Prop() @Field(() => Number, { nullable: true }) doaTawhid?: number;
+  @Prop() @Field(() => Boolean, { nullable: true }) tahajjud?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) ishraq?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) waqiyah?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) kahf?: boolean;
+  @Prop() @Field(() => Boolean, { nullable: true }) mulk?: boolean;
 }
 
 @ObjectType()

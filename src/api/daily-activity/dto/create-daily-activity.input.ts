@@ -60,15 +60,11 @@ export class EbadahInputDto {
 
   @Field(() => Number, { nullable: true })
   @IsOptional()
+  kajaNamaj?: number;
+
+  @Field(() => Number, { nullable: true })
+  @IsOptional()
   extraNamaj?: number;
-
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  ishraq?: boolean;
-
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  tahajjud?: boolean;
 
   @Field(() => TilwatTranslationInputDto, { nullable: true })
   @IsOptional()
@@ -81,18 +77,6 @@ export class EbadahInputDto {
   @Field(() => TilwatTranslationInputDto, { nullable: true })
   @IsOptional()
   readingBook?: TilwatTranslationInputDto;
-
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  waqiyah?: boolean;
-
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  mulk?: boolean;
-
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  kahf?: boolean;
 
   @Field(() => TilwatTranslationInputDto, { nullable: true })
   @IsOptional()
@@ -120,6 +104,26 @@ export class JikirInputDto {
   @Field(() => Number, { nullable: true })
   @IsOptional()
   doaTawhid?: number;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  ishraq?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  tahajjud?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  waqiyah?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  mulk?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  kahf?: boolean;
 }
 
 @InputType()
