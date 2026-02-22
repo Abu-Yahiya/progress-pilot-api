@@ -1,14 +1,17 @@
 # ProgressPilot - Learning Tracker System
+
 ## Author: Abu Yahiya
-## Author Email: rafiz.mehedi@gmail.com - +8801600221211
+
+## Author Email: abu.yahiya.755@gmail.com
 
 ## Technology Used:-
-* Nest.JS
-* TypeScript
-* MongoDB
-* Mongoose
-* GraphQL
-* JWT - JsonWebToken
+
+- Nest.JS
+- TypeScript
+- MongoDB
+- Mongoose
+- GraphQL
+- JWT - JsonWebToken
 
 ### Core Features:
 
@@ -19,5 +22,6 @@
 5.  Admin portal and Learner Portal
 
 ### Run commands
-* npm/pnpm/yarn install
-* npm run dev / pnpm/yarn dev# progress-pilot-api
+
+- npm/pnpm/yarn install
+- npm run dev / pnpm/yarn dev# progress-pilot-api
